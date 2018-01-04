@@ -347,6 +347,8 @@ class Google_ClientTest extends BaseTest
     '"https://www.googleapis.com/oauth2/v1/certs"}}';
     $dObj = json_decode($device, true);
     $client->setAuthConfig($dObj);
+    $this->assertEquals($client->getConfig('auth_uri'), $dObj['installed']['auth_uri']);
+    $this->assertEquals($client->getConfig('token_uri'), $dObj['installed']['token_uri']);
     $this->assertEquals($client->getClientId(), $dObj['installed']['client_id']);
     $this->assertEquals($client->getClientSecret(), $dObj['installed']['client_secret']);
     $this->assertEquals($client->getRedirectUri(), $dObj['installed']['redirect_uris'][0]);
@@ -361,6 +363,8 @@ class Google_ClientTest extends BaseTest
       '"https://www.googleapis.com/oauth2/v1/certs"}}';
     $wObj = json_decode($web, true);
     $client->setAuthConfig($wObj);
+    $this->assertEquals($client->getConfig('auth_uri'), $wObj['web']['auth_uri']);
+    $this->assertEquals($client->getConfig('token_uri'), $wObj['web']['token_uri']);
     $this->assertEquals($client->getClientId(), $wObj['web']['client_id']);
     $this->assertEquals($client->getClientSecret(), $wObj['web']['client_secret']);
     $this->assertEquals($client->getRedirectUri(), '');
