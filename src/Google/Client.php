@@ -99,6 +99,8 @@ class Google_Client
           // Don't change these unless you're working against a special development
           // or testing environment.
           'base_path' => self::API_BASE_PATH,
+          'auth_uri'  => self::OAUTH2_AUTH_URL,
+          'token_uri' => self::OAUTH2_TOKEN_URI,
 
           // https://developers.google.com/console
           'client_id' => '',
@@ -866,6 +868,8 @@ class Google_Client
       $this->config['client_email'] = $config['client_email'];
       $this->config['signing_key'] = $config['private_key'];
       $this->config['signing_algorithm'] = 'HS256';
+      if (isset($config['auth_uri']))  $this->config['auth_uri']  = $config['auth_uri'];
+      if (isset($config['token_uri'])) $this->config['token_uri'] = $config['token_uri'];
     } elseif (isset($config[$key])) {
       // old-style
       $this->setClientId($config[$key]['client_id']);
@@ -873,6 +877,8 @@ class Google_Client
       if (isset($config[$key]['redirect_uris'])) {
         $this->setRedirectUri($config[$key]['redirect_uris'][0]);
       }
+      if (isset($config[$key]['auth_uri']))  $this->config['auth_uri']  = $config[$key]['auth_uri'];
+      if (isset($config[$key]['token_uri'])) $this->config['token_uri'] = $config[$key]['token_uri'];
     } else {
       // new-style
       $this->setClientId($config['client_id']);
@@ -880,6 +886,8 @@ class Google_Client
       if (isset($config['redirect_uris'])) {
         $this->setRedirectUri($config['redirect_uris'][0]);
       }
+      if (isset($config['auth_uri']))  $this->config['auth_uri']  = $config['auth_uri'];
+      if (isset($config['token_uri'])) $this->config['token_uri'] = $config['token_uri'];
     }
   }
 
@@ -934,8 +942,8 @@ class Google_Client
         [
           'clientId'          => $this->getClientId(),
           'clientSecret'      => $this->getClientSecret(),
-          'authorizationUri'   => self::OAUTH2_AUTH_URL,
-          'tokenCredentialUri' => self::OAUTH2_TOKEN_URI,
+          'authorizationUri'   => $this->config['auth_uri'],
+          'tokenCredentialUri' => $this->config['token_uri'],
           'redirectUri'       => $this->getRedirectUri(),
           'issuer'            => $this->config['client_id'],
           'signingKey'        => $this->config['signing_key'],
