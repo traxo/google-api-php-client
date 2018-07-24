@@ -192,6 +192,8 @@ class Google_ClientTest extends BaseTest
 
   public function testPrepareService()
   {
+    $this->onlyGuzzle6();
+
     $client = new Google_Client();
     $client->setScopes(array("scope1", "scope2"));
     $scopes = $client->prepareScopes();
@@ -242,7 +244,6 @@ class Google_ClientTest extends BaseTest
         ->method('createRequest')
         ->will($this->returnValue($guzzle5Request));
     }
-
 
     $client->setHttpClient($http);
     $dr_service = new Google_Service_Drive($client);
@@ -446,7 +447,11 @@ class Google_ClientTest extends BaseTest
     $postBody->expects($this->once())
       ->method('__toString')
       ->will($this->returnValue($token));
-    $response = $this->getMock('Psr\Http\Message\ResponseInterface');
+    if ($this->isGuzzle5()) {
+      $response = $this->getMock('GuzzleHttp\Message\ResponseInterface');
+    } else {
+      $response = $this->getMock('Psr\Http\Message\ResponseInterface');
+    }
     $response->expects($this->once())
       ->method('getBody')
       ->will($this->returnValue($postBody));
@@ -483,7 +488,11 @@ class Google_ClientTest extends BaseTest
     $postBody->expects($this->once())
       ->method('__toString')
       ->will($this->returnValue($token));
-    $response = $this->getMock('Psr\Http\Message\ResponseInterface');
+    if ($this->isGuzzle5()) {
+      $response = $this->getMock('GuzzleHttp\Message\ResponseInterface');
+    } else {
+      $response = $this->getMock('Psr\Http\Message\ResponseInterface');
+    }
     $response->expects($this->once())
       ->method('getBody')
       ->will($this->returnValue($postBody));
@@ -521,7 +530,11 @@ class Google_ClientTest extends BaseTest
     $postBody->expects($this->once())
       ->method('__toString')
       ->will($this->returnValue($token));
-    $response = $this->getMock('Psr\Http\Message\ResponseInterface');
+    if ($this->isGuzzle5()) {
+      $response = $this->getMock('GuzzleHttp\Message\ResponseInterface');
+    } else {
+      $response = $this->getMock('Psr\Http\Message\ResponseInterface');
+    }
     $response->expects($this->once())
       ->method('getBody')
       ->will($this->returnValue($postBody));
